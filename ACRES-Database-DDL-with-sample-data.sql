@@ -1,93 +1,93 @@
-/*************************************************************************************************/
-/*               A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database               */
-/*************************************************************************************************/
-/*                                                                                               */
-/* Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                               */
-/* Dr. Xiang Liu                                                                                 */
-/* IT 310 A - Database Technology                                                                */
-/* December 10, 2024                                                                             */
-/*                                                                                               */
-/*************************************************************************************************/
-/*                                         CREATE SCHEMA                                         */
-/*************************************************************************************************/
+/***********************************************************************************************/
+/*              A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database              */
+/***********************************************************************************************/
+/*                                                                                             */
+/* Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                             */
+/* Dr. Xiang Liu                                                                               */
+/* IT 310 A - Database Technology                                                              */
+/* December 10, 2024                                                                           */
+/*                                                                                             */
+/***********************************************************************************************/
+/*                                        CREATE SCHEMA                                        */
+/***********************************************************************************************/
 CREATE SCHEMA acres;
 
-/*************************************************************************************************/
-/*                                         SELECT SCHEMA                                         */
-/*************************************************************************************************/
+/***********************************************************************************************/
+/*                                        SELECT SCHEMA                                        */
+/***********************************************************************************************/
 USE acres;
 
-/*************************************************************************************************/
-/*                                         CREATE TABLES                                         */
-/*************************************************************************************************/
+/***********************************************************************************************/
+/*                                        CREATE TABLES                                        */
+/***********************************************************************************************/
 CREATE TABLE APT_GROUPS(
-    apt_group                                   VARCHAR(250)                            NOT NULL,
-    alias_names                                 VARCHAR(100)                            NULL,
-    description                                 VARCHAR(5000)                           NOT NULL,
-    CONSTRAINT                                  APT_GROUPS_PK PRIMARY KEY(apt_group)
+    apt_group                        VARCHAR(250)                            NOT NULL,
+    alias_names                      VARCHAR(100)                            NULL,
+    description                      VARCHAR(5000)                           NOT NULL,
+    CONSTRAINT                       APT_GROUPS_PK PRIMARY KEY(apt_group)
     );
 
 CREATE TABLE CRITICALITY_DEFINITIONS(
-	criticality_value			INT								NOT NULL,
-    criticality_name			VARCHAR(25)						NOT NULL,
-    downtime_allowed			VARCHAR(25)						NOT NULL,
-    CONSTRAINT 					CRITICALITY_DEFINITIONS_PK		PRIMARY KEY(criticality_value)
-	);
+    criticality_value                INT								NOT NULL,
+    criticality_name                 VARCHAR(25)						NOT NULL,
+    downtime_allowed                 VARCHAR(25)						NOT NULL,
+    CONSTRAINT                       CRITICALITY_DEFINITIONS_PK		PRIMARY KEY(criticality_value)
+    );
 
 CREATE TABLE VULNERABILITIES_DATA(
-	cve_number					VARCHAR(14)						NOT NULL,
-    nvd_score					DECIMAL(2, 1)					NOT NULL,
-    cvss_version				CHAR(3)							NOT NULL,
-    vector_string				VARCHAR(44)						NOT NULL,
-	attack_vector				VARCHAR(16)						NOT NULL,
-    attack_complexity			VARCHAR(6)						NOT NULL,
-    privilege_required			VARCHAR(8)						NULL,
-    user_interaction_required	VARCHAR(8)						NOT NULL,
-    scope_changed				VARCHAR(9)						NULL,
-	impact_confidentiality		VARCHAR(8)						NOT NULL,
-    impact_integrity			VARCHAR(8)						NOT NULL,
-	impact_availability			VARCHAR(8)						NOT NULL,
-    base_score					DECIMAL(2, 1)					NOT NULL,
-    base_severity				VARCHAR(14)						NOT NULL,
-    exploitability_score		DECIMAL(3, 1)					NOT NULL,
-    impact_score				DECIMAL(3, 1)					NOT NULL,
-    description					VARCHAR(5000)					NOT NULL,
-    CONSTRAINT 					VULNERABILITIES_DATA_PK	PRIMARY KEY(cve_number),
-    CONSTRAINT 					VULNERABILITIES_DATA_cve_number
-									CHECK (cve_number LIKE 'CVE-____-____%'
-										AND LENGTH(cve_number) BETWEEN 13 AND 14),
-    CONSTRAINT					VULNERABILITIES_DATA_cvss_version
-									CHECK (cvss_version IN ('2.0', '3.0', '3.1', '4.0')),
-	CONSTRAINT					VULNERABILITIES_DATA_attack_vector
-									CHECK (attack_vector IN (
-										'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 'NETWORK')),
-	CONSTRAINT					VULNERABILITIES_DATA_attack_complexity
+    cve_number                       VARCHAR(14)						NOT NULL,
+    nvd_score                        DECIMAL(2, 1)					NOT NULL,
+    cvss_version                     CHAR(3)							NOT NULL,
+    vector_string                    VARCHAR(44)						NOT NULL,
+    attack_vector                    VARCHAR(16)						NOT NULL,
+    attack_complexity                VARCHAR(6)						NOT NULL,
+    privilege_required               VARCHAR(8)						NULL,
+    user_interaction_required        VARCHAR(8)						NOT NULL,
+    scope_changed                    VARCHAR(9)						NULL,
+    impact_confidentiality           VARCHAR(8)						NOT NULL,
+    impact_integrity                 VARCHAR(8)						NOT NULL,
+    impact_availability              VARCHAR(8)						NOT NULL,
+    base_score                       DECIMAL(2, 1)					NOT NULL,
+    base_severity                    VARCHAR(14)						NOT NULL,
+    exploitability_score             DECIMAL(3, 1)					NOT NULL,
+    impact_score                     DECIMAL(3, 1)					NOT NULL,
+    description                      VARCHAR(5000)					NOT NULL,
+    CONSTRAINT                       VULNERABILITIES_DATA_PK PRIMARY KEY(cve_number),
+    CONSTRAINT                       VULNERABILITIES_DATA_cve_number
+                                         CHECK (cve_number LIKE 'CVE-____-____%'
+                                             AND LENGTH(cve_number) BETWEEN 13 AND 14),
+    CONSTRAINT                       VULNERABILITIES_DATA_cvss_version
+                                         CHECK (cvss_version IN ('2.0', '3.0', '3.1', '4.0')),
+    CONSTRAINT                       VULNERABILITIES_DATA_attack_vector
+                                     CHECK (attack_vector IN (
+                                         'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 'NETWORK')),
+    CONSTRAINT					VULNERABILITIES_DATA_attack_complexity
 									CHECK (attack_complexity IN ('LOW', 'MEDIUM', 'HIGH')),
-	CONSTRAINT					VULNERABILITIES_DATA_privilege_required
+    CONSTRAINT					VULNERABILITIES_DATA_privilege_required
 									CHECK (privilege_required IN (null, 'NONE', 'LOW', 'HIGH')),
-	CONSTRAINT					VULNERABILITIES_DATA_user_interaction_required
+    CONSTRAINT					VULNERABILITIES_DATA_user_interaction_required
 									CHECK (user_interaction_required IN ('NONE', 'REQUIRED', True, False)),
-	CONSTRAINT					VULNERABILITIES_DATA_scope_changed
+    CONSTRAINT					VULNERABILITIES_DATA_scope_changed
 									CHECK (privilege_required IN (null, 'UNCHANGED', 'CHANGED')),
-	CONSTRAINT					VULNERABILITIES_DATA_impact_confidentiality
+    CONSTRAINT					VULNERABILITIES_DATA_impact_confidentiality
 									CHECK (impact_confidentiality IN (
 										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-	CONSTRAINT					VULNERABILITIES_DATA_impact_integrity
+    CONSTRAINT					VULNERABILITIES_DATA_impact_integrity
 									CHECK (impact_integrity IN (
 										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-	CONSTRAINT					VULNERABILITIES_DATA_impact_availability
+    CONSTRAINT					VULNERABILITIES_DATA_impact_availability
 									CHECK (impact_availability IN (
 										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-	CONSTRAINT 					VULNERABILITIES_DATA_base_score
+    CONSTRAINT 					VULNERABILITIES_DATA_base_score
 									CHECK (base_score >= 0.00 AND base_score <= 10.00),
-	CONSTRAINT					VULNERABILITIES_DATA_base_severity
+    CONSTRAINT					VULNERABILITIES_DATA_base_severity
 									CHECK (base_severity IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
-	CONSTRAINT 					VULNERABILITIES_DATA_exploitability_score
+    CONSTRAINT 					VULNERABILITIES_DATA_exploitability_score
 									CHECK (exploitability_score >= 0.00
 										AND exploitability_score <= 10.00),
-	CONSTRAINT 					VULNERABILITIES_DATA_impact_score
+    CONSTRAINT 					VULNERABILITIES_DATA_impact_score
 									CHECK (impact_score >= 0.00 AND impact_score <= 10.00)
-	);
+    );
 
 CREATE TABLE INFRASTRUCTURE_CATEGORIES(
     category_id					INT								NOT NULL AUTO_INCREMENT,
