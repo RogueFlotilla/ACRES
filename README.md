@@ -3,16 +3,14 @@
 ## Overview
 The A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database is designed to support cyber resiliency assessments by storing and managing data related to Advanced Persistent Threats (APTs), vulnerabilities, infrastructure, and scoring systems. This database schema is part of a project for IT 310 A - Database Technology that was a spinoff from a Navy Cyber Resiliency Measurement Challenge. Currently, the repository consits of several DDL files to generate a MySQL database and populate the data (one to create schema and tables only, one to populate the data, and a combined DDL file for both), a white paper report, and a presentation deck.
 
-### Authors
+## Authors
 Kristian Alleyne, B.S. Information Technology w/ Cybersecurity minor
 Richard Flores, B.S. Information Technology w/ Cybersecurity, Digital Forensics, and Network Security minors
 Claire Kamobaya, B.S. Cybersecurity
 Matthew Penn B.S. Cybersecurity
 Professor: Dr. Xiang Liu
 
-Date
-December 10, 2024
-Schema Structure
+## Schema Structure
 The database schema is organized into several tables to capture various aspects of cyber threats and infrastructure. Below is an overview of the tables and their purposes:
 Tables
 
@@ -64,17 +62,14 @@ Tables
         Primary Key: Composite of cve_number and apt_group
         Foreign Key references to VULNERABILITIES_DATA and APT_GROUPS
 
-Data Insertion
-Sample data insertion has been provided for the APT_GROUPS table, illustrating how to populate the database with initial threat group data.
-Usage
-To set up the database:
+## Data Insertion
+Sample data insertion has been provided for all tables, illustrating how to populate the database with initial threat group data, infrastructure details for the system under evaluation, and sample output from ACRES software tool analysis.
 
+## Usage
+### To set up the database:
     Execute the DDL script provided in this repository to create the schema and tables.
     Insert initial data as needed using the provided SQL insert statements.
 
-Notes
-
+### Notes
     Ensure that all foreign key constraints are respected when populating tables.
     The schema includes various constraints to maintain data integrity; review these before inserting new data.
-
-This README provides a high-level overview of the ACRES database schema, its structure, and usage instructions for setting up the database environment.
