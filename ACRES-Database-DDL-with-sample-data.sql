@@ -2,11 +2,11 @@
 /*               A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database               */
 /*************************************************************************************************/
 /*                                                                                               */
-/*  Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                              */
-/*	Dr. Xiang Liu		                                           	                             */
-/*	IT 310 A - Database Technology									                             */
-/*	December 10, 2024											                                 */
-/*																	                             */
+/* Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                               */
+/* Dr. Xiang Liu                                                                                 */
+/* IT 310 A - Database Technology                                                                */
+/* December 10, 2024                                                                             */
+/*                                                                                               */
 /*************************************************************************************************/
 /*                                         CREATE SCHEMA                                         */
 /*************************************************************************************************/
@@ -21,10 +21,10 @@ USE acres;
 /*                                         CREATE TABLES                                         */
 /*************************************************************************************************/
 CREATE TABLE APT_GROUPS(
-	apt_group					VARCHAR(25)					NOT NULL,
-    alias_names					VARCHAR(100)				NULL,
-    description					VARCHAR(5000)				NOT NULL,
-    CONSTRAINT 					APT_GROUPS_PK				PRIMARY KEY(apt_group)
+    apt_group                                   VARCHAR(250)                            NOT NULL,
+    alias_names                                 VARCHAR(100)                            NULL,
+    description                                 VARCHAR(5000)                           NOT NULL,
+    CONSTRAINT                                  APT_GROUPS_PK PRIMARY KEY(apt_group)
     );
 
 CREATE TABLE CRITICALITY_DEFINITIONS(
