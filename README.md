@@ -16,7 +16,7 @@ Tables
 
 ### APT_GROUPS:
   Primary Key: apt_group
-  Stores information about different APT groups, including aliases and descriptions.
+Stores information about different APT groups, including aliases and descriptions.
 
 ### CRITICALITY_DEFINITIONS:
   Primary Key: criticality_value
