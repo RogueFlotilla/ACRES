@@ -14,62 +14,68 @@ Professor: Dr. Xiang Liu
 The database schema is organized into several tables to capture various aspects of cyber threats and infrastructure. Below is an overview of the tables and their purposes:
 Tables
 
-    APT_GROUPS
-        Stores information about different APT groups, including aliases and descriptions.
-        Primary Key: apt_group
-    CRITICALITY_DEFINITIONS
-        Defines criticality levels for infrastructure components based on downtime allowed.
-        Primary Key: criticality_value
-    VULNERABILITIES_DATA
-        Contains data on vulnerabilities, including CVE numbers, scores, and impact details.
-        Primary Key: cve_number
-        Includes various constraints for data validation.
-    INFRASTRUCTURE_CATEGORIES
-        Lists categories for infrastructure components.
-        Primary Key: category_id
-    INFRASTRUCTURE_NODES
-        Details nodes within the infrastructure, including make, model, and category.
-        Primary Key: infra_id
-    ENDPOINT_NODES
-        Captures endpoint devices within the network.
-        Primary Key: endpoint_id
-    SOFTWARE_FIRMWARE
-        Stores software and firmware details installed on endpoints.
-        Primary Key: software_id
-        Unique constraint on software make, name, and version.
-    SYSTEM_SCORING
-        Evaluates APT groups based on various scoring criteria.
-        Primary Key: Composite of apt_group and score_name
-        Foreign Key references to APT_GROUPS
-    FUNCTION_DEFINITIONS
-        Defines functions within the system with associated criticality values.
-        Primary Key: function_number
-        Foreign Key references to CRITICALITY_DEFINITIONS
-    FUNCTION_MAPPING
-        Maps functions to endpoint nodes.
-        Primary Key: Composite of endpoint_id and function_number
-        Foreign Key references to ENDPOINT_NODES and FUNCTION_DEFINITIONS
-    SOFTWARE_FIRMWARE_MAPPING
-        Links software/firmware to endpoints.
-        Primary Key: Composite of endpoint_id and software_id
-        Foreign Key references to ENDPOINT_NODES and SOFTWARE_FIRMWARE
-    VULNERABILITY_INSTANCES
-        Associates vulnerabilities with specific software instances.
-        Primary Key: Composite of cve_number and software_id
-        Foreign Key references to VULNERABILITIES_DATA and SOFTWARE_FIRMWARE
-    APT_CVE_SCORING
-        Scores APT groups based on their association with specific vulnerabilities.
-        Primary Key: Composite of cve_number and apt_group
-        Foreign Key references to VULNERABILITIES_DATA and APT_GROUPS
+### APT_GROUPS:
+  Primary Key: apt_group
+  Stores information about different APT groups, including aliases and descriptions.
+
+### CRITICALITY_DEFINITIONS:
+  Primary Key: criticality_value
+  Defines criticality levels for infrastructure components based on downtime allowed.
+
+### VULNERABILITIES_DATA:
+  Primary Key: cve_number
+  Contains data on vulnerabilities, including CVE numbers, scores, and impact details. Includes many constraints for data validation.
+
+### INFRASTRUCTURE_CATEGORIES:
+  Primary Key: category_id (auto-number)
+  Lists categories for infrastructure components.
+
+### INFRASTRUCTURE_NODES:
+  Primary Key: infra_id (auto-number)
+  Details nodes within the infrastructure, including make, model, and category.
+
+### ENDPOINT_NODES:
+  Primary Key: endpoint_id (auto-number)
+  Captures unqique endpoint devices within the network.
+
+### SOFTWARE_FIRMWARE:
+  Primary Key: software_id (auto-number)
+  Stores software and firmware details installed on endpoints.
+  
+### SYSTEM_SCORING:
+  Composite Primary Key: apt_group and score_name
+  AI evaluation scoring of system based on system summaries and security best practices in physical security, personel training, and operating policies.
+
+### FUNCTION_DEFINITIONS:
+  Primary Key: function_number
+  Defines functions within the system with associated criticality values.
+
+### FUNCTION_MAPPING:
+  Composite Primary Key: endpoint_id and function_number
+  Maps functions to endpoint nodes.
+        
+### SOFTWARE_FIRMWARE_MAPPING:
+  Composite Primary Key: endpoint_id and software_id
+  Links software/firmware to endpoints.
+
+### VULNERABILITY_INSTANCES:
+  Composite Primary Key: cve_number and software_id
+  Associates vulnerabilities with specific software instances.
+
+### APT_CVE_SCORING
+  Composite Primary Key: cve_number and apt_group
+  Scores APT groups based on their association with specific vulnerabilities.
+
+## Usage
+### To set up the database:
+1. Execute the DDL script provided in this repository to create the schema and tables.
+2. Insert initial data as needed using the provided SQL insert statements.
+   OR
+Run the combined ACRES Database DDL with sample data to create and populate data in one step.
 
 ## Data Insertion
 Sample data insertion has been provided for all tables, illustrating how to populate the database with initial threat group data, infrastructure details for the system under evaluation, and sample output from ACRES software tool analysis.
 
-## Usage
-### To set up the database:
-    Execute the DDL script provided in this repository to create the schema and tables.
-    Insert initial data as needed using the provided SQL insert statements.
-
 ### Notes
-    Ensure that all foreign key constraints are respected when populating tables.
-    The schema includes various constraints to maintain data integrity; review these before inserting new data.
+Ensure that all foreign key constraints are respected when populating tables.
+The schema includes various constraints to maintain data integrity; review these before inserting new data.
