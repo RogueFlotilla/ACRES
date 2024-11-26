@@ -1,16 +1,14 @@
 # ACRES Database
-Currently, a DDL file to generate a MySQL database that was a final project for IT 310, Database Technology, that was a spinoff of a Navy Cyber Resiliency Measurement Challenge. The file also populates the database with sample data.
 
 ## Overview
-The A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database is designed to support cyber resiliency assessments by storing and managing data related to Advanced Persistent Threats (APTs), vulnerabilities, infrastructure, and scoring systems. This database schema is part of a project for IT 310 A - Database Technology.
+The A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database is designed to support cyber resiliency assessments by storing and managing data related to Advanced Persistent Threats (APTs), vulnerabilities, infrastructure, and scoring systems. This database schema is part of a project for IT 310 A - Database Technology that was a spinoff from a Navy Cyber Resiliency Measurement Challenge. Currently, the repository consits of several DDL files to generate a MySQL database and populate the data (one to create schema and tables only, one to populate the data, and a combined DDL file for both), a white paper report, and a presentation deck.
 
 ### Authors
-
-    Kristian Alleyne
-    Richard Flores
-    Claire Kamobaya
-    Matthew Penn
-    Supervisor: Dr. Xiang Liu
+Kristian Alleyne, B.S. Information Technology w/ Cybersecurity minor
+Richard Flores, B.S. Information Technology w/ Cybersecurity, Digital Forensics, and Network Security minors
+Claire Kamobaya, B.S. Cybersecurity
+Matthew Penn B.S. Cybersecurity
+Professor: Dr. Xiang Liu
 
 Date
 December 10, 2024
