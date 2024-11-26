@@ -15,7 +15,8 @@ The database schema is organized into several tables to capture various aspects 
 Tables
 
 ### APT_GROUPS:
-  Primary Key: apt_group\n
+  Primary Key: apt_group
+  
   Stores information about different APT groups, including aliases and descriptions.
 
 ### CRITICALITY_DEFINITIONS:
