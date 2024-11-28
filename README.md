@@ -30,12 +30,15 @@ The database schema is organized into several tables to capture various aspects 
 > #### INFRASTRUCTURE_CATEGORIES:
 > Lists categories for infrastructure components. Primary Key: category_id (auto-number).
 > 
-> #### INFRASTRUCTURE_NODES:
-> Details nodes within the infrastructure, including make, model, and category. Primary Key: infra_id (auto-number).
+> #### HARDWARE:
+> Details unique within the infrastructure, including make, model, and description. Primary Key: hardware_id (auto-number).
 > 
 > #### ENDPOINT_NODES:
 > Captures unqique endpoint devices within the network. Primary Key: endpoint_id (auto-number).
 > 
+> #### HARDWARE_MAPPING:
+> Maps and details individual hardware instances within system infrastructure. Composite Key: hardware_id, serial_number.
+>
 > #### SOFTWARE_FIRMWARE:
 > Stores software and firmware details installed on endpoints. Primary Key: software_id (auto-number).
 > 
