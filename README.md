@@ -42,7 +42,7 @@ The database schema is organized into several tables to capture various aspects 
 > #### SOFTWARE_FIRMWARE:
 > Stores software and firmware details installed on endpoints. Primary Key: software_id (auto-number).
 > 
-> ### SYSTEM_SCORING:
+> #### SYSTEM_SCORING:
 > AI evaluation scoring of system based on system summaries and security best practices in physical security, personel training, and operating policies. Composite Key: apt_group and score_name
 > 
 > #### FUNCTION_DEFINITIONS:
