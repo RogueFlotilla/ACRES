@@ -1,218 +1,254 @@
-/***********************************************************************************************/
-/*              A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database              */
-/***********************************************************************************************/
-/*                                                                                             */
-/* Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                             */
-/* Dr. Xiang Liu                                                                               */
-/* IT 310 A - Database Technology                                                              */
-/* December 10, 2024                                                                           */
-/*                                                                                             */
-/***********************************************************************************************/
-/*                                        CREATE SCHEMA                                        */
-/***********************************************************************************************/
+/*************************************************************************************************/
+/*               A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database               */
+/*************************************************************************************************/
+/*                                                                                               */
+/*  Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                              */
+/*    Dr. Xiang Liu                                                                              */
+/*    IT 310 A - Database Technology                                                             */
+/*    December 10, 2024                                                                          */
+/*                                                                                               */
+/*************************************************************************************************/
+/*                                         CREATE SCHEMA                                         */
+/*************************************************************************************************/
 CREATE SCHEMA acres;
 
-/***********************************************************************************************/
-/*                                        SELECT SCHEMA                                        */
-/***********************************************************************************************/
+/*************************************************************************************************/
+/*                                         SELECT SCHEMA                                         */
+/*************************************************************************************************/
 USE acres;
 
-/***********************************************************************************************/
-/*                                        CREATE TABLES                                        */
-/***********************************************************************************************/
+/*************************************************************************************************/
+/*                                         CREATE TABLES                                         */
+/*************************************************************************************************/
 CREATE TABLE APT_GROUPS(
-    apt_group                        VARCHAR(250)                            NOT NULL,
-    alias_names                      VARCHAR(100)                            NULL,
-    description                      VARCHAR(5000)                           NOT NULL,
-    CONSTRAINT                       APT_GROUPS_PK PRIMARY KEY(apt_group)
+    apt_group                       VARCHAR(25)                        NOT NULL,
+    alias_names                     VARCHAR(100)                       NULL,
+    description                     VARCHAR(5000)                      NOT NULL,
+    CONSTRAINT                      APT_GROUPS_PK                      PRIMARY KEY(apt_group)
     );
 
 CREATE TABLE CRITICALITY_DEFINITIONS(
-    criticality_value                INT								NOT NULL,
-    criticality_name                 VARCHAR(25)						NOT NULL,
-    downtime_allowed                 VARCHAR(25)						NOT NULL,
-    CONSTRAINT                       CRITICALITY_DEFINITIONS_PK		PRIMARY KEY(criticality_value)
+    criticality_value               INT                                NOT NULL,
+    criticality_name                VARCHAR(25)                        NOT NULL,
+    downtime_allowed                VARCHAR(25)                        NOT NULL,
+    CONSTRAINT                      CRITICALITY_DEFINITIONS_PK
+                                        PRIMARY KEY(criticality_value)
     );
 
 CREATE TABLE VULNERABILITIES_DATA(
-    cve_number                       VARCHAR(14)						NOT NULL,
-    nvd_score                        DECIMAL(2, 1)					NOT NULL,
-    cvss_version                     CHAR(3)							NOT NULL,
-    vector_string                    VARCHAR(44)						NOT NULL,
-    attack_vector                    VARCHAR(16)						NOT NULL,
-    attack_complexity                VARCHAR(6)						NOT NULL,
-    privilege_required               VARCHAR(8)						NULL,
-    user_interaction_required        VARCHAR(8)						NOT NULL,
-    scope_changed                    VARCHAR(9)						NULL,
-    impact_confidentiality           VARCHAR(8)						NOT NULL,
-    impact_integrity                 VARCHAR(8)						NOT NULL,
-    impact_availability              VARCHAR(8)						NOT NULL,
-    base_score                       DECIMAL(2, 1)					NOT NULL,
-    base_severity                    VARCHAR(14)						NOT NULL,
-    exploitability_score             DECIMAL(3, 1)					NOT NULL,
-    impact_score                     DECIMAL(3, 1)					NOT NULL,
-    description                      VARCHAR(5000)					NOT NULL,
-    CONSTRAINT                       VULNERABILITIES_DATA_PK PRIMARY KEY(cve_number),
-    CONSTRAINT                       VULNERABILITIES_DATA_cve_number
-                                         CHECK (cve_number LIKE 'CVE-____-____%'
-                                             AND LENGTH(cve_number) BETWEEN 13 AND 14),
-    CONSTRAINT                       VULNERABILITIES_DATA_cvss_version
-                                         CHECK (cvss_version IN ('2.0', '3.0', '3.1', '4.0')),
-    CONSTRAINT                       VULNERABILITIES_DATA_attack_vector
-                                     CHECK (attack_vector IN (
-                                         'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 'NETWORK')),
-    CONSTRAINT					VULNERABILITIES_DATA_attack_complexity
-									CHECK (attack_complexity IN ('LOW', 'MEDIUM', 'HIGH')),
-    CONSTRAINT					VULNERABILITIES_DATA_privilege_required
-									CHECK (privilege_required IN (null, 'NONE', 'LOW', 'HIGH')),
-    CONSTRAINT					VULNERABILITIES_DATA_user_interaction_required
-									CHECK (user_interaction_required IN ('NONE', 'REQUIRED', True, False)),
-    CONSTRAINT					VULNERABILITIES_DATA_scope_changed
-									CHECK (privilege_required IN (null, 'UNCHANGED', 'CHANGED')),
-    CONSTRAINT					VULNERABILITIES_DATA_impact_confidentiality
-									CHECK (impact_confidentiality IN (
-										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-    CONSTRAINT					VULNERABILITIES_DATA_impact_integrity
-									CHECK (impact_integrity IN (
-										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-    CONSTRAINT					VULNERABILITIES_DATA_impact_availability
-									CHECK (impact_availability IN (
-										'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
-    CONSTRAINT 					VULNERABILITIES_DATA_base_score
-									CHECK (base_score >= 0.00 AND base_score <= 10.00),
-    CONSTRAINT					VULNERABILITIES_DATA_base_severity
-									CHECK (base_severity IN ('LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
-    CONSTRAINT 					VULNERABILITIES_DATA_exploitability_score
-									CHECK (exploitability_score >= 0.00
-										AND exploitability_score <= 10.00),
-    CONSTRAINT 					VULNERABILITIES_DATA_impact_score
-									CHECK (impact_score >= 0.00 AND impact_score <= 10.00)
+    cve_number                      VARCHAR(14)                        NOT NULL,
+    nvd_score                       DECIMAL(2, 1)                      NOT NULL,
+    cvss_version                    CHAR(3)                            NOT NULL,
+    vector_string                   VARCHAR(44)                        NOT NULL,
+    attack_vector                   VARCHAR(16)                        NOT NULL,
+    attack_complexity               VARCHAR(6)                         NOT NULL,
+    privilege_required              VARCHAR(8)                         NULL,
+    user_interaction_required       VARCHAR(8)                         NOT NULL,
+    scope_changed                   VARCHAR(9)                         NULL,
+    impact_confidentiality          VARCHAR(8)                         NOT NULL,
+    impact_integrity                VARCHAR(8)                         NOT NULL,
+    impact_availability             VARCHAR(8)                         NOT NULL,
+    base_score                      DECIMAL(2, 1)                      NOT NULL,
+    base_severity                   VARCHAR(14)                        NOT NULL,
+    exploitability_score            DECIMAL(3, 1)                      NOT NULL,
+    impact_score                    DECIMAL(3, 1)                      NOT NULL,
+    description                     VARCHAR(5000)                      NOT NULL,
+    CONSTRAINT                      VULNERABILITIES_DATA_PK            PRIMARY KEY(cve_number),
+    CONSTRAINT                      VULNERABILITIES_DATA_cve_number
+                                        CHECK (cve_number LIKE 'CVE-____-____%'
+                                        AND LENGTH(cve_number) BETWEEN 13 AND 14),
+    CONSTRAINT                      VULNERABILITIES_DATA_cvss_version
+                                        CHECK (cvss_version IN('2.0', '3.0', '3.1', '4.0')),
+    CONSTRAINT                      VULNERABILITIES_DATA_attack_vector
+                                        CHECK (attack_vector IN(
+                                            'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 'NETWORK')),
+    CONSTRAINT                      VULNERABILITIES_DATA_attack_complexity
+                                        CHECK (attack_complexity IN('LOW', 'MEDIUM', 'HIGH')),
+    CONSTRAINT                      VULNERABILITIES_DATA_privilege_required
+                                        CHECK (privilege_required IN(null, 'NONE', 'LOW', 'HIGH')),
+    CONSTRAINT                      VULNERABILITIES_DATA_user_interaction_required
+                                        CHECK (user_interaction_required IN(
+                                            'NONE', 'REQUIRED', True, False)),
+    CONSTRAINT                      VULNERABILITIES_DATA_scope_changed
+                                        CHECK (privilege_required IN(
+                                            null, 'UNCHANGED', 'CHANGED')),
+    CONSTRAINT                      VULNERABILITIES_DATA_impact_confidentiality
+                                        CHECK (impact_confidentiality IN(
+                                            'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
+    CONSTRAINT                      VULNERABILITIES_DATA_impact_integrity
+                                        CHECK (impact_integrity IN(
+                                            'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
+    CONSTRAINT                      VULNERABILITIES_DATA_impact_availability
+                                        CHECK (impact_availability IN(
+                                            'NONE', 'PARTIAL', 'COMPLETE', 'LOW', 'HIGH')),
+    CONSTRAINT                      VULNERABILITIES_DATA_base_score
+                                        CHECK (base_score >= 0.00 AND base_score <= 10.00),
+    CONSTRAINT                      VULNERABILITIES_DATA_base_severity
+                                        CHECK (base_severity IN(
+                                            'LOW', 'MEDIUM', 'HIGH', 'CRITICAL')),
+    CONSTRAINT                      VULNERABILITIES_DATA_exploitability_score
+                                        CHECK (exploitability_score >= 0.00
+                                        AND exploitability_score <= 10.00),
+    CONSTRAINT                      VULNERABILITIES_DATA_impact_score
+                                        CHECK (impact_score >= 0.00 AND impact_score <= 10.00)
     );
 
 CREATE TABLE INFRASTRUCTURE_CATEGORIES(
-    category_id					INT								NOT NULL AUTO_INCREMENT,
-    category_name				VARCHAR(100)					NOT NULL,
-    CONSTRAINT 					INFRASTRUCTURE_CATEGORIES_PK	PRIMARY KEY(category_id)
+    category_id                     INT                                NOT NULL AUTO_INCREMENT,
+    category_name                   VARCHAR(100)                       NOT NULL,
+    CONSTRAINT                      INFRASTRUCTURE_CATEGORIES_PK       PRIMARY KEY(category_id)
     );
 
-CREATE TABLE INFRASTRUCTURE_NODES(
-    infra_id					INT								NOT NULL AUTO_INCREMENT,
-    serial_number				VARCHAR(25)						NOT NULL,
-    infra_make					VARCHAR(25)						NOT NULL,
-    infra_model					VARCHAR(25)						NOT NULL,
-    description					VARCHAR(5000)					NULL,
-    category_id					INT								NOT NULL,
-    CONSTRAINT 					INFRASTRUCTURE_NODES_PK			PRIMARY KEY(infra_id)
-	);
+CREATE TABLE HARDWARE(
+    hardware_id                     INT                                NOT NULL AUTO_INCREMENT,
+    infra_make                      VARCHAR(25)                        NOT NULL,
+    infra_model                     VARCHAR(25)                        NOT NULL,
+    description                     VARCHAR(5000)                      NULL,
+    category_id                     INT                                NOT NULL,
+    CONSTRAINT                      HARDWARE_PK                        PRIMARY KEY(hardware_id),
+    CONSTRAINT                      SYSTEM_SCORING_IN_FK               FOREIGN KEY(category_id)
+                                        REFERENCES INFRASTRUCTURE_CATEGORIES(category_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      HARDWARE
+                                        UNIQUE(infra_make, infra_model)
+    );
     
 CREATE TABLE ENDPOINT_NODES(
-	endpoint_id					INT								NOT NULL AUTO_INCREMENT,
-    endpoint_name				VARCHAR(100)					NOT NULL,
-    CONSTRAINT 					INFRASTRUCTURE_NODES_PK			PRIMARY KEY(endpoint_id)
-	);
+    endpoint_id                     INT                                NOT NULL AUTO_INCREMENT,
+    endpoint_name                   VARCHAR(100)                       NOT NULL,
+    CONSTRAINT                      HARDWARE_PK                        PRIMARY KEY(endpoint_id),
+    CONSTRAINT                      ENDPOINT_NODES                     UNIQUE(endpoint_name)
+    );
+
+CREATE TABLE HARDWARE_MAPPING(
+    hardware_id                     INT                                NOT NULL,
+    serial_number                   VARCHAR(25)                        NOT NULL,
+    category_id                     INT                                NOT NULL,
+    endpoint_id                     INT                                NOT NULL,
+    CONSTRAINT                      HARDWARE_MAPPING_PK
+                                        PRIMARY KEY(hardware_id, serial_number),
+    CONSTRAINT                      HARDWARE_MAPPING_H_FK              FOREIGN KEY(hardware_id)
+                                        REFERENCES HARDWARE(hardware_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      HARDWARE_MAPPING_IC_FK             FOREIGN KEY(category_id)
+                                        REFERENCES INFRASTRUCTURE_CATEGORIES(category_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      HARDWARE_MAPPING_EN_FK             FOREIGN KEY(endpoint_id)
+                                        REFERENCES ENDPOINT_NODES(endpoint_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      CUSTOMER_EMAIL
+                                        UNIQUE(hardware_id, serial_number)
+);
     
 CREATE TABLE SOFTWARE_FIRMWARE(
-	software_id					INT								NOT NULL AUTO_INCREMENT,
-    software_make				VARCHAR(50)						NOT NULL,
-    software_name				VARCHAR(100)					NOT NULL,
-    software_version			VARCHAR(25)						NOT NULL,
-    CONSTRAINT 					SOFTWARE_FIRMWARE_PK			PRIMARY KEY(software_id),
-    CONSTRAINT					CUSTOMER_EMAIL UNIQUE(
-		software_make, software_name, software_version)
-	);
+    software_id                     INT                                NOT NULL AUTO_INCREMENT,
+    software_make                   VARCHAR(50)                        NOT NULL,
+    software_name                   VARCHAR(100)                       NOT NULL,
+    software_version                VARCHAR(25)                        NOT NULL,
+    CONSTRAINT                      SOFTWARE_FIRMWARE_PK               PRIMARY KEY(software_id),
+    CONSTRAINT                      CUSTOMER_EMAIL
+                                        UNIQUE(software_make, software_name, software_version)
+    );
     
 CREATE TABLE SYSTEM_SCORING(
-	apt_group					VARCHAR(25)						NOT NULL,
-    score_name					VARCHAR(9)						NOT NULL,
-    score						DECIMAL(3, 2)					NOT NULL,
-    reasoning					VARCHAR(5000)					NULL,
-    remediations				JSON							NULL,
-    CONSTRAINT 					SYSTEM_SCORING_PK				PRIMARY KEY(apt_group, score_name),
-    CONSTRAINT 					SYSTEM_SCORING_AG_FK			FOREIGN KEY(apt_group)
-									REFERENCES APT_GROUPS(apt_group)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-    CONSTRAINT					SYSTEM_SCORING_score_name
-									CHECK (score_name IN ('Physical', 'Personnel', 'Policies')),
-	CONSTRAINT 					SYSTEM_SCORING_score
-									CHECK (score >= 0.0
-										AND score <= 1.00)
+    apt_group                       VARCHAR(25)                        NOT NULL,
+    score_name                      VARCHAR(9)                         NOT NULL,
+    score                           DECIMAL(3, 2)                      NOT NULL,
+    reasoning                       VARCHAR(5000)                      NULL,
+    remediations                    JSON                               NULL,
+    CONSTRAINT                      SYSTEM_SCORING_PK
+                                        PRIMARY KEY(apt_group, score_name),
+    CONSTRAINT                      SYSTEM_SCORING_AG_FK               FOREIGN KEY(apt_group)
+                                        REFERENCES APT_GROUPS(apt_group)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      SYSTEM_SCORING_score_name
+                                        CHECK (score_name IN('Physical', 'Personnel', 'Policies')),
+    CONSTRAINT                      SYSTEM_SCORING_score
+                                        CHECK (score >= 0.0 AND score <= 1.00)
     );
 
 CREATE TABLE FUNCTION_DEFINITIONS(
-	function_number		VARCHAR(4)						NOT NULL,
-    function_name		VARCHAR(100)					NOT NULL,
-	work_area			CHAR(100)						NOT NULL,
-	criticality_value	INT								NOT NULL,
-	CONSTRAINT 			FUNCTION_DEFINITIONS_PK 		PRIMARY KEY(function_number),
-    CONSTRAINT 			FUNCTION_DEFINITIONS_CD_FK			FOREIGN KEY(criticality_value)
-							REFERENCES CRITICALITY_DEFINITIONS(criticality_value)
-								ON UPDATE CASCADE
-								ON DELETE NO ACTION
-	);
+    function_number                 VARCHAR(4)                         NOT NULL,
+    function_name                   VARCHAR(100)                       NOT NULL,
+    work_area                       CHAR(100)                          NOT NULL,
+    criticality_value               INT                                NOT NULL,
+    CONSTRAINT                      FUNCTION_DEFINITIONS_PK
+                                        PRIMARY KEY(function_number),
+    CONSTRAINT                      FUNCTION_DEFINITIONS_CD_FK
+                                        FOREIGN KEY(criticality_value)
+                                            REFERENCES CRITICALITY_DEFINITIONS(criticality_value)
+                                                ON UPDATE CASCADE
+                                                ON DELETE NO ACTION
+    );
 
 CREATE TABLE FUNCTION_MAPPING(
-	endpoint_id					INT								NOT NULL,
-    function_number				VARCHAR(4)						NOT NULL,
-    CONSTRAINT 					FUNCTION_MAPPING_PK 			PRIMARY KEY(
-		endpoint_id, function_number),
-    CONSTRAINT 					FUNCTION_MAPPING_IN_FK  			FOREIGN KEY(endpoint_id)
-									REFERENCES ENDPOINT_NODES(endpoint_id)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-    CONSTRAINT 					FUNCTION_MAPPING_FD_FK  			FOREIGN KEY(function_number)
-									REFERENCES FUNCTION_DEFINITIONS(function_number)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION
-	);
+    endpoint_id                     INT                                NOT NULL,
+    function_number                 VARCHAR(4)                         NOT NULL,
+    CONSTRAINT                      FUNCTION_MAPPING_PK
+                                        PRIMARY KEY(endpoint_id, function_number),
+    CONSTRAINT                      FUNCTION_MAPPING_IN_FK             FOREIGN KEY(endpoint_id)
+                                        REFERENCES ENDPOINT_NODES(endpoint_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      FUNCTION_MAPPING_FD_FK             FOREIGN KEY(function_number)
+                                        REFERENCES FUNCTION_DEFINITIONS(function_number)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION
+    );
     
 CREATE TABLE SOFTWARE_FIRMWARE_MAPPING(
-	endpoint_id					INT								NOT NULL,
-	software_id					INT								NOT NULL,
-    CONSTRAINT 					SOFTWARE_FIRMWARE_MAPPING_PK	PRIMARY KEY(endpoint_id, software_id),
-    CONSTRAINT 					SOFTWARE_FIRMWARE_MAPPING_EN_FK	FOREIGN KEY(endpoint_id)
-									REFERENCES ENDPOINT_NODES(endpoint_id)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-	CONSTRAINT 					SOFTWARE_FIRMWARE_MAPPING_SF_FK	FOREIGN KEY(software_id)
-									REFERENCES SOFTWARE_FIRMWARE(software_id)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION
-	);
+    endpoint_id                     INT                                NOT NULL,
+    software_id                     INT                                NOT NULL,
+    CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_PK
+                                        PRIMARY KEY(endpoint_id, software_id),
+    CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_EN_FK    FOREIGN KEY(endpoint_id)
+                                    REFERENCES ENDPOINT_NODES(endpoint_id)
+                                        ON UPDATE CASCADE
+                                        ON DELETE NO ACTION,
+    CONSTRAINT                     SOFTWARE_FIRMWARE_MAPPING_SF_FK    FOREIGN KEY(software_id)
+                                    REFERENCES SOFTWARE_FIRMWARE(software_id)
+                                        ON UPDATE CASCADE
+                                        ON DELETE NO ACTION
+    );
     
 CREATE TABLE VULNERABILITY_INSTANCES(
-	cve_number					VARCHAR(14)						NOT NULL,
-    software_id					INT								NOT NULL,
-    CONSTRAINT 					VULNERABILITY_INSTANCES_PK		PRIMARY KEY(
-		cve_number, software_id),
-    CONSTRAINT 					VULNERABILITY_INSTANCES_DV_FK	FOREIGN KEY(cve_number)
-									REFERENCES VULNERABILITIES_DATA(cve_number)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-    CONSTRAINT 					VULNERABILITY_INSTANCES_SF_FK	FOREIGN KEY(software_id)
-									REFERENCES SOFTWARE_FIRMWARE(software_id)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION
-	);
+    cve_number                      VARCHAR(14)                       NOT NULL,
+    software_id                     INT                               NOT NULL,
+    CONSTRAINT                      VULNERABILITY_INSTANCES_PK
+                                        PRIMARY KEY(cve_number, software_id),
+    CONSTRAINT                      VULNERABILITY_INSTANCES_DV_FK     FOREIGN KEY(cve_number)
+                                    REFERENCES VULNERABILITIES_DATA(cve_number)
+                                        ON UPDATE CASCADE
+                                        ON DELETE NO ACTION,
+    CONSTRAINT                      VULNERABILITY_INSTANCES_SF_FK     FOREIGN KEY(software_id)
+                                        REFERENCES SOFTWARE_FIRMWARE(software_id)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION
+    );
 
 CREATE TABLE APT_CVE_SCORING(
-	cve_number					VARCHAR(14)						NOT NULL,
-    apt_group					VARCHAR(25)						NOT NULL,
-    score						DECIMAL(3, 2)					NOT NULL,
-    reasoning					VARCHAR(5000)					NULL,
-    CONSTRAINT 					VULNERABILITY_INSTANCES_PK		PRIMARY KEY(cve_number, apt_group),
-    CONSTRAINT 					APT_CVE_SCORING_VD_FK			FOREIGN KEY(cve_number)
-									REFERENCES VULNERABILITIES_DATA(cve_number)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-	CONSTRAINT 					APT_CVE_SCORING_AG_FK			FOREIGN KEY(apt_group)
-									REFERENCES APT_GROUPS(apt_group)
-										ON UPDATE CASCADE
-										ON DELETE NO ACTION,
-	CONSTRAINT 					APT_CVE_SCORING_score
-									CHECK (score >= 0.0
-										AND score <= 1.00)
-	);
+    cve_number                      VARCHAR(14)                       NOT NULL,
+    apt_group                       VARCHAR(25)                       NOT NULL,
+    score                           DECIMAL(3, 2)                     NOT NULL,
+    reasoning                       VARCHAR(5000)                     NULL,
+    CONSTRAINT                      VULNERABILITY_INSTANCES_PK
+                                        PRIMARY KEY(cve_number, apt_group),
+    CONSTRAINT                      APT_CVE_SCORING_VD_FK             FOREIGN KEY(cve_number)
+                                        REFERENCES VULNERABILITIES_DATA(cve_number)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      APT_CVE_SCORING_AG_FK             FOREIGN KEY(apt_group)
+                                        REFERENCES APT_GROUPS(apt_group)
+                                            ON UPDATE CASCADE
+                                            ON DELETE NO ACTION,
+    CONSTRAINT                      APT_CVE_SCORING_score
+                                        CHECK (score >= 0.0 AND score <= 1.00)
+    );
 
 /*************************************************************************************************/
 /*                                          INSERT DATA                                          */
@@ -434,37 +470,26 @@ INSERT INTO VULNERABILITIES_DATA VALUES('CVE-2023-20269', 9.1, '3.1', 'CVSS:3.1/
 
 # INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(category_id, category_name);
 INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "boundary defense and system administrator rack");
+INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "server rack");
 INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "bulk data storage rack");
 INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "company laptops");
 INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "company workstations");
-INSERT INTO INFRASTRUCTURE_CATEGORIES VALUES(null, "server rack");
 
-# INSERT INTO INFRASTRUCTURE_NODES VALUES(infra_id, serial_number, infra_make, infra_model, description, category_id);
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "CS23XZ8910F", "Cisco", "4125 NGFW", "Next Generation Firewall (NGFW) with Intrusion Protection Systems (IPS), rack mountable, 1U", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "MS42532MX102", "Cisco", "MS425-32", "Meraki Layer 3 Switch (Router)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "CAT2960X1903C", "Cisco", "Catalyst 2960-X", "Layer 2 Gigabit Ethernet Network Switch", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "TL0018KB457", "Tripp Lite", "B030-008-17-IP", "Tripp Lite 8-Port Rackmount Console HDMI KVM Switch 17 LCD IP Remote Access B030-008-17-IP, Rack Mounted Monitor, Keyboard, and Touchpad", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "DE075PRXY920", "Dell", "PowerEdge R750", "Rack Server (2U, Intel C620 series chipset, up to two 3rd Generation Intel Xeon processors with up to 40 cores per processor)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "PVME5024DN82", "Dell", "PowerVault ME5024", "Storage Area Network (SAN)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "TL48PANELZ108", "Tripp Lite", "N052-048-1U", "48-Port Patch Panel (1U Rack-Mount, 558B, Cat6/Cat5, RJ45)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "APC3KVM9142U", "APC", "SMT3000RM2UC", "Uninterruptible Power Supply (3kVA, 2U rackmount, Smart-UPS)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "CAT2960XZQ450", "Cisco", "Catalyst 2960-X", "Layer 2 Gigabit Ethernet Network Switch", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "PVME5024GHT66", "Dell", "PowerVault ME5024", "Storage Area Network (SAN)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "TL48PATCH39X7", "Tripp Lite", "N052-048-1U", "48-Port Patch Panel (1U Rack-Mount, 558B, Cat6/Cat5, RJ45)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "MS42532LZT341", "Cisco", "MS425-32", "Cisco Meraki Layer 3 Switch (32 ports, 10 Gb)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "APCUPS5009YY", "APC", "SMT3000RM2UC", "Uninterruptible Power Supply (3kVA, 2U rackmount, Smart-UPS)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "DE7330LAT001", "Dell", "7330", "Rugged Latitude Extreme Laptop", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "GAT231ZTB902", "Gator", "None", "ATA TSA Molded Laptop Travel Case (Hard Shell, Exterior Dimensions: 19.38in W x 14.5in D x 9.75in H)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "DEP5820KYL329", "Dell", "Precision 5820", "Computer Tower with Keyboard and Mouse", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "SAM24LCD7820L", "Samsung", "S24C450DL", "24in Widescreen LCD Display", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "CAT2960XX0341C", "Cisco", "Catalyst 2960-X", "Layer 2 Gigabit Ethernet Network Switch", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "DEPR750BBX019", "Dell", "PowerEdge R750", "Rack Server (2U, Intel C620 series chipset, up to two 3rd Generation Intel Xeon processors with up to 40 cores per processor)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "TL48PANELX0097", "Tripp Lite", "N052-048-1U", "48-Port Patch Panel (1U Rack-Mount, 558B, Cat6/Cat5, RJ45)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "MS42532NGX492", "Cisco", "MS425-32", "Cisco Meraki Layer 3 Switch (32 ports, 10 Gb)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "PVME5024RV234", "Dell", "PowerVault ME5024", "Storage Area Network (SAN)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
-INSERT INTO INFRASTRUCTURE_NODES VALUES(null, "APC3KUP2X93D", "APC", "SMT3000RM2UC", "Uninterruptible Power Supply (3kVA, 2U rackmount, Smart-UPS)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'));
+# INSERT INTO HARDWARE VALUES(hardware_id, infra_make, infra_model, description, category_id);
+INSERT INTO HARDWARE VALUES(null, "Cisco", "4125 NGFW", "Next Generation Firewall (NGFW) with Intrusion Protection Systems (IPS), rack mountable, 1U", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Cisco", "MS425-32", "Cisco Meraki Layer 3 Switch (32 ports, 10 Gb) (Router)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Cisco", "Catalyst 2960-X", "Layer 2 Gigabit Ethernet Network Switch", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Tripp Lite", "B030-008-17-IP", "Tripp Lite 8-Port Rackmount Console HDMI KVM Switch 17 LCD IP Remote Access B030-008-17-IP, Rack Mounted Monitor, Keyboard, and Touchpad", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Dell", "PowerEdge R750", "Rack Server (2U, Intel C620 series chipset, up to two 3rd Generation Intel Xeon processors with up to 40 cores per processor)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Dell", "PowerVault ME5024", "Storage Area Network (SAN)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Tripp Lite", "N052-048-1U", "48-Port Patch Panel (1U Rack-Mount, 558B, Cat6/Cat5, RJ45)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "APC", "SMT3000RM2UC", "Uninterruptible Power Supply (3kVA, 2U rackmount, Smart-UPS)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'));
+INSERT INTO HARDWARE VALUES(null, "Dell", "7330", "Rugged Latitude Extreme Laptop", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'));
+INSERT INTO HARDWARE VALUES(null, "Gator", "None", "ATA TSA Molded Laptop Travel Case (Hard Shell, Exterior Dimensions: 19.38in W x 14.5in D x 9.75in H)", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'));
+INSERT INTO HARDWARE VALUES(null, "Dell", "Precision 5820", "Computer Tower with Keyboard and Mouse", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'));
+INSERT INTO HARDWARE VALUES(null, "Samsung", "S24C450DL", "24in Widescreen LCD Display", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'));
 
-# INSERT INTO ENDPOINT_NODE VALUES(endpoint_id, endpoint_name);
+# INSERT INTO ENDPOINT_NODES VALUES(endpoint_id, endpoint_name);
 INSERT INTO ENDPOINT_NODES VALUES(null, "System Administrator Terminal");
 INSERT INTO ENDPOINT_NODES VALUES(null, "Virtualization Manager Server");
 INSERT INTO ENDPOINT_NODES VALUES(null, "Virtualization Manager SAN Archive");
@@ -506,10 +531,82 @@ INSERT INTO ENDPOINT_NODES VALUES(null, "Company Management (Workstation 5)");
 INSERT INTO ENDPOINT_NODES VALUES(null, "Company Management (Workstation 6)");
 INSERT INTO ENDPOINT_NODES VALUES(null, "Test Engineering (Laptop 1)");
 INSERT INTO ENDPOINT_NODES VALUES(null, "Test Engineering (Laptop 2)");
-INSERT INTO ENDPOINT_NODES VALUES(null,  "Layer 3 Switch");
-INSERT INTO ENDPOINT_NODES VALUES(null,  "Layer 2 Switch");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Firewall");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Router");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Layer 3 Switch");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Layer 2 Switch");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Patch Panel");
+INSERT INTO ENDPOINT_NODES VALUES(null, "UPS");
+INSERT INTO ENDPOINT_NODES VALUES(null, "Misc Peripherals");
 
-# INSERT INTO SOFTWARE_FIRMWARE VALUES(software_id, software_make, software_name, software_version, endpoint_id);
+# INSERT INTO HARDWARE_MAPPING VALUES(hardware_id, serial_number, category_id, endpoint_id);
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "4125 NGFW"), "CS23XZ8910F", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Firewall"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "MS425-32"), "MS42532MX102", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Router"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "CAT2960X1903C", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Tripp Lite" AND infra_model = "B030-008-17-IP"), "TL0018KB457", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Misc Peripherals"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRXY920", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Virtualization Manager Server"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE92MTRXA587", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Cybersecurity Capability & Tools Server"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE34KNBWZ143", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Audit Log Server"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024DN82", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Audit Log SAN Archive"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024TH91", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Cybersecurity Capability & Tools SAN Archive"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024RC74", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Virtualization Manager SAN Archive"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Tripp Lite" AND infra_model = "N052-048-1U"), "TL48PANELZ108", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Misc Peripherals"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "APC" AND infra_model = "SMT3000RM2UC"), "APC3KVM9142U", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'boundary defense and system administrator rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "UPS"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "MS425-32"), "MS42532GY847", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Router"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "FOC2960X5H7D", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "FCZ2960X9L2P", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRCX671", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #1 (SR1)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PZMY428", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #2 (SR2)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRLY892", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #3 (SR3)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRZX153", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #4 (SR4)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRKY379", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #5 (SR5)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PXQY254", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #6 (SR6)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PMRY841", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #7 (SR7)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRBY763", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #8 (SR8)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PTFY983", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #9 (SR9)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PRWY512", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #10 (SR10)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PJNY687", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #11 (SR11)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerEdge R750"), "DE075PXLY429", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Server Rack, Server #12 (SR12)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Tripp Lite" AND infra_model = "N052-048-1U"), "TL48PATCH39X7", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Patch Panel"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024GHT66", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN 1"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024LFX39", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN 2"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024ZRP87", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN 3"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024MTQ24", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test SAN"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024HDY55", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management SAN"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "APC" AND infra_model = "SMT3000RM2UC"), "APCUPS5009YY", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "UPS"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "FCZ2960X2K8Q", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "FOC2960X9P3W", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Cisco" AND infra_model = "Catalyst 2960-X"), "FGL2960X7L4Z", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Layer 2 Switch"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024NTR42", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN Archive 1"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024ZKY21", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN Archive 1 Backup"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024TJD89", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN Archive 2"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024RUV77", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production SAN Archive 2 Backup"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Tripp Lite" AND infra_model = "N052-048-1U"), "TL48PATCH72A9", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Patch Panel"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024JXE33", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test SAN Archive"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024WKD88", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test SAN Archive Backup"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024RLP76", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Cybersecurity Capability & Tools SAN Archive Backup"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024KFT21", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management SAN Archive"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "PowerVault ME5024"), "PVME5024NBY44", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'bulk data storage rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management SAN Archive Backup"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "APC" AND infra_model = "SMT3000RM2UC"), "APCUPS6732JX", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'server rack'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "UPS"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "7330"), "DE7330LAT249", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test Engineering (Laptop 1)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Gator" AND infra_model = "None"), "GAT231ZTB902", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test Engineering (Laptop 1)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "7330"), "DE7330LAT001", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test Engineering (Laptop 2)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Gator" AND infra_model = "None"), "GAT231ZTB731", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company laptops'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Test Engineering (Laptop 2)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820KYL329", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 1)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD7820L", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 1)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820XTY453", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 2)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD9502T", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 2)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820PRD587", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 3)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD1735H", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 3)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820MNV914", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 4)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD6248Q", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Engineering & Production (Workstation 4)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820LWR311", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management (Workstation 5)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD3879Z", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management (Workstation 5)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Dell" AND infra_model = "Precision 5820"), "DEP5820KJC279", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management (Workstation 6)"));
+INSERT INTO HARDWARE_MAPPING VALUES((SELECT hardware_id FROM HARDWARE WHERE infra_make = "Samsung" AND infra_model = "S24C450DL"), "SAM24LCD5713L", (SELECT category_id FROM INFRASTRUCTURE_CATEGORIES WHERE category_name = 'company workstations'), (SELECT endpoint_id FROM ENDPOINT_NODES WHERE endpoint_name = "Company Management (Workstation 6)"));
+
+# INSERT INTO SOFTWARE_FIRMWARE VALUES(software_id, software_make, software_name, 
+#     software_version, endpoint_id);
 INSERT INTO SOFTWARE_FIRMWARE VALUES(null, "Cisco", "FirePower 4125 Next Generation Firewall with Firepower Threat Defense (FTD) Software", "6.6.7");
 INSERT INTO SOFTWARE_FIRMWARE VALUES(null, "Cisco", "Meraki MS425-32 Layer 3 Switch (firmware 2014-09-23)", "9/23/2014");
 INSERT INTO SOFTWARE_FIRMWARE VALUES(null, "Cisco", "Catalyst 2960-X IOS", "IOS 15.2(1)E");
