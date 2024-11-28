@@ -1,59 +1,59 @@
-/*************************************************************************************************/
-/*               A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database               */
-/*************************************************************************************************/
-/*                                                                                               */
-/*  Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                              */
-/*    Dr. Xiang Liu                                                                              */
-/*    IT 310 A - Database Technology                                                             */
-/*    December 10, 2024                                                                          */
-/*                                                                                               */
-/*************************************************************************************************/
-/*                                         CREATE SCHEMA                                         */
-/*************************************************************************************************/
+/*****************************************************************************************/
+/*           A.I.-enhanced Cyber Resiliency Evaluation System (ACRES) Database           */
+/*****************************************************************************************/
+/*                                                                                       */
+/* Kristian Alleyne, Richard Flores, Claire Kamobaya, Matthew Penn                       */
+/* Dr. Xiang Liu                                                                         */
+/* IT 310 A - Database Technology                                                        */
+/* December 10, 2024                                                                     */
+/*                                                                                       */
+/*****************************************************************************************/
+/*                                     CREATE SCHEMA                                     */
+/*****************************************************************************************/
 CREATE SCHEMA acres;
 
-/*************************************************************************************************/
-/*                                         SELECT SCHEMA                                         */
-/*************************************************************************************************/
+/*****************************************************************************************/
+/*                                     SELECT SCHEMA                                     */
+/*****************************************************************************************/
 USE acres;
 
-/*************************************************************************************************/
-/*                                         CREATE TABLES                                         */
-/*************************************************************************************************/
+/*****************************************************************************************/
+/*                                     CREATE TABLES                                     */
+/*****************************************************************************************/
 CREATE TABLE APT_GROUPS(
-    apt_group                       VARCHAR(25)                        NOT NULL,
-    alias_names                     VARCHAR(100)                       NULL,
-    description                     VARCHAR(5000)                      NOT NULL,
-    CONSTRAINT                      APT_GROUPS_PK                      PRIMARY KEY(apt_group)
+    apt_group                       VARCHAR(25)                    NOT NULL,
+    alias_names                     VARCHAR(100)                   NULL,
+    description                     VARCHAR(5000)                  NOT NULL,
+    CONSTRAINT                      APT_GROUPS_PK                  PRIMARY KEY(apt_group)
     );
 
 CREATE TABLE CRITICALITY_DEFINITIONS(
-    criticality_value               INT                                NOT NULL,
-    criticality_name                VARCHAR(25)                        NOT NULL,
-    downtime_allowed                VARCHAR(25)                        NOT NULL,
+    criticality_value               INT                            NOT NULL,
+    criticality_name                VARCHAR(25)                    NOT NULL,
+    downtime_allowed                VARCHAR(25)                    NOT NULL,
     CONSTRAINT                      CRITICALITY_DEFINITIONS_PK
                                         PRIMARY KEY(criticality_value)
     );
 
 CREATE TABLE VULNERABILITIES_DATA(
-    cve_number                      VARCHAR(14)                        NOT NULL,
-    nvd_score                       DECIMAL(2, 1)                      NOT NULL,
-    cvss_version                    CHAR(3)                            NOT NULL,
-    vector_string                   VARCHAR(44)                        NOT NULL,
-    attack_vector                   VARCHAR(16)                        NOT NULL,
-    attack_complexity               VARCHAR(6)                         NOT NULL,
-    privilege_required              VARCHAR(8)                         NULL,
-    user_interaction_required       VARCHAR(8)                         NOT NULL,
-    scope_changed                   VARCHAR(9)                         NULL,
-    impact_confidentiality          VARCHAR(8)                         NOT NULL,
-    impact_integrity                VARCHAR(8)                         NOT NULL,
-    impact_availability             VARCHAR(8)                         NOT NULL,
-    base_score                      DECIMAL(2, 1)                      NOT NULL,
-    base_severity                   VARCHAR(14)                        NOT NULL,
-    exploitability_score            DECIMAL(3, 1)                      NOT NULL,
-    impact_score                    DECIMAL(3, 1)                      NOT NULL,
-    description                     VARCHAR(5000)                      NOT NULL,
-    CONSTRAINT                      VULNERABILITIES_DATA_PK            PRIMARY KEY(cve_number),
+    cve_number                      VARCHAR(14)                    NOT NULL,
+    nvd_score                       DECIMAL(2, 1)                  NOT NULL,
+    cvss_version                    CHAR(3)                        NOT NULL,
+    vector_string                   VARCHAR(44)                    NOT NULL,
+    attack_vector                   VARCHAR(16)                    NOT NULL,
+    attack_complexity               VARCHAR(6)                     NOT NULL,
+    privilege_required              VARCHAR(8)                     NULL,
+    user_interaction_required       VARCHAR(8)                     NOT NULL,
+    scope_changed                   VARCHAR(9)                     NULL,
+    impact_confidentiality          VARCHAR(8)                     NOT NULL,
+    impact_integrity                VARCHAR(8)                     NOT NULL,
+    impact_availability             VARCHAR(8)                     NOT NULL,
+    base_score                      DECIMAL(2, 1)                  NOT NULL,
+    base_severity                   VARCHAR(14)                    NOT NULL,
+    exploitability_score            DECIMAL(3, 1)                  NOT NULL,
+    impact_score                    DECIMAL(3, 1)                  NOT NULL,
+    description                     VARCHAR(5000)                  NOT NULL,
+    CONSTRAINT                      VULNERABILITIES_DATA_PK        PRIMARY KEY(cve_number),
     CONSTRAINT                      VULNERABILITIES_DATA_cve_number
                                         CHECK (cve_number LIKE 'CVE-____-____%'
                                         AND LENGTH(cve_number) BETWEEN 13 AND 14),
@@ -61,11 +61,14 @@ CREATE TABLE VULNERABILITIES_DATA(
                                         CHECK (cvss_version IN('2.0', '3.0', '3.1', '4.0')),
     CONSTRAINT                      VULNERABILITIES_DATA_attack_vector
                                         CHECK (attack_vector IN(
-                                            'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 'NETWORK')),
+                                            'PHYSICAL', 'LOCAL', 'ADJACENT_NETWORK', 
+                                            'NETWORK')),
     CONSTRAINT                      VULNERABILITIES_DATA_attack_complexity
-                                        CHECK (attack_complexity IN('LOW', 'MEDIUM', 'HIGH')),
+                                        CHECK (attack_complexity IN(
+                                            'LOW', 'MEDIUM', 'HIGH')),
     CONSTRAINT                      VULNERABILITIES_DATA_privilege_required
-                                        CHECK (privilege_required IN(null, 'NONE', 'LOW', 'HIGH')),
+                                        CHECK (privilege_required IN(
+                                            null, 'NONE', 'LOW', 'HIGH')),
     CONSTRAINT                      VULNERABILITIES_DATA_user_interaction_required
                                         CHECK (user_interaction_required IN(
                                             'NONE', 'REQUIRED', True, False)),
@@ -94,19 +97,19 @@ CREATE TABLE VULNERABILITIES_DATA(
     );
 
 CREATE TABLE INFRASTRUCTURE_CATEGORIES(
-    category_id                     INT                                NOT NULL AUTO_INCREMENT,
-    category_name                   VARCHAR(100)                       NOT NULL,
-    CONSTRAINT                      INFRASTRUCTURE_CATEGORIES_PK       PRIMARY KEY(category_id)
+    category_id                     INT                            NOT NULL AUTO_INCREMENT,
+    category_name                   VARCHAR(100)                   NOT NULL,
+    CONSTRAINT                      INFRASTRUCTURE_CATEGORIES_PK   PRIMARY KEY(category_id)
     );
 
 CREATE TABLE HARDWARE(
-    hardware_id                     INT                                NOT NULL AUTO_INCREMENT,
-    infra_make                      VARCHAR(25)                        NOT NULL,
-    infra_model                     VARCHAR(25)                        NOT NULL,
-    description                     VARCHAR(5000)                      NULL,
-    category_id                     INT                                NOT NULL,
-    CONSTRAINT                      HARDWARE_PK                        PRIMARY KEY(hardware_id),
-    CONSTRAINT                      SYSTEM_SCORING_IN_FK               FOREIGN KEY(category_id)
+    hardware_id                     INT                            NOT NULL AUTO_INCREMENT,
+    infra_make                      VARCHAR(25)                    NOT NULL,
+    infra_model                     VARCHAR(25)                    NOT NULL,
+    description                     VARCHAR(5000)                  NULL,
+    category_id                     INT                            NOT NULL,
+    CONSTRAINT                      HARDWARE_PK                    PRIMARY KEY(hardware_id),
+    CONSTRAINT                      SYSTEM_SCORING_IN_FK           FOREIGN KEY(category_id)
                                         REFERENCES INFRASTRUCTURE_CATEGORIES(category_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
@@ -115,28 +118,28 @@ CREATE TABLE HARDWARE(
     );
     
 CREATE TABLE ENDPOINT_NODES(
-    endpoint_id                     INT                                NOT NULL AUTO_INCREMENT,
-    endpoint_name                   VARCHAR(100)                       NOT NULL,
-    CONSTRAINT                      HARDWARE_PK                        PRIMARY KEY(endpoint_id),
-    CONSTRAINT                      ENDPOINT_NODES                     UNIQUE(endpoint_name)
+    endpoint_id                     INT                            NOT NULL AUTO_INCREMENT,
+    endpoint_name                   VARCHAR(100)                   NOT NULL,
+    CONSTRAINT                      HARDWARE_PK                    PRIMARY KEY(endpoint_id),
+    CONSTRAINT                      ENDPOINT_NODES                 UNIQUE(endpoint_name)
     );
 
 CREATE TABLE HARDWARE_MAPPING(
-    hardware_id                     INT                                NOT NULL,
-    serial_number                   VARCHAR(25)                        NOT NULL,
-    category_id                     INT                                NOT NULL,
-    endpoint_id                     INT                                NOT NULL,
+    hardware_id                     INT                            NOT NULL,
+    serial_number                   VARCHAR(25)                    NOT NULL,
+    category_id                     INT                            NOT NULL,
+    endpoint_id                     INT                            NOT NULL,
     CONSTRAINT                      HARDWARE_MAPPING_PK
                                         PRIMARY KEY(hardware_id, serial_number),
-    CONSTRAINT                      HARDWARE_MAPPING_H_FK              FOREIGN KEY(hardware_id)
+    CONSTRAINT                      HARDWARE_MAPPING_H_FK          FOREIGN KEY(hardware_id)
                                         REFERENCES HARDWARE(hardware_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
-    CONSTRAINT                      HARDWARE_MAPPING_IC_FK             FOREIGN KEY(category_id)
+    CONSTRAINT                      HARDWARE_MAPPING_IC_FK         FOREIGN KEY(category_id)
                                         REFERENCES INFRASTRUCTURE_CATEGORIES(category_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
-    CONSTRAINT                      HARDWARE_MAPPING_EN_FK             FOREIGN KEY(endpoint_id)
+    CONSTRAINT                      HARDWARE_MAPPING_EN_FK         FOREIGN KEY(endpoint_id)
                                         REFERENCES ENDPOINT_NODES(endpoint_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
@@ -145,104 +148,108 @@ CREATE TABLE HARDWARE_MAPPING(
 );
     
 CREATE TABLE SOFTWARE_FIRMWARE(
-    software_id                     INT                                NOT NULL AUTO_INCREMENT,
-    software_make                   VARCHAR(50)                        NOT NULL,
-    software_name                   VARCHAR(100)                       NOT NULL,
-    software_version                VARCHAR(25)                        NOT NULL,
-    CONSTRAINT                      SOFTWARE_FIRMWARE_PK               PRIMARY KEY(software_id),
+    software_id                     INT                            NOT NULL AUTO_INCREMENT,
+    software_make                   VARCHAR(50)                    NOT NULL,
+    software_name                   VARCHAR(100)                   NOT NULL,
+    software_version                VARCHAR(25)                    NOT NULL,
+    CONSTRAINT                      SOFTWARE_FIRMWARE_PK           PRIMARY KEY(software_id),
     CONSTRAINT                      CUSTOMER_EMAIL
-                                        UNIQUE(software_make, software_name, software_version)
+                                        UNIQUE(
+                                            software_make, software_name, software_version)
     );
     
 CREATE TABLE SYSTEM_SCORING(
-    apt_group                       VARCHAR(25)                        NOT NULL,
-    score_name                      VARCHAR(9)                         NOT NULL,
-    score                           DECIMAL(3, 2)                      NOT NULL,
-    reasoning                       VARCHAR(5000)                      NULL,
-    remediations                    JSON                               NULL,
+    apt_group                       VARCHAR(25)                    NOT NULL,
+    score_name                      VARCHAR(9)                     NOT NULL,
+    score                           DECIMAL(3, 2)                  NOT NULL,
+    reasoning                       VARCHAR(5000)                  NULL,
+    remediations                    JSON                           NULL,
     CONSTRAINT                      SYSTEM_SCORING_PK
                                         PRIMARY KEY(apt_group, score_name),
-    CONSTRAINT                      SYSTEM_SCORING_AG_FK               FOREIGN KEY(apt_group)
+    CONSTRAINT                      SYSTEM_SCORING_AG_FK           FOREIGN KEY(apt_group)
                                         REFERENCES APT_GROUPS(apt_group)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
     CONSTRAINT                      SYSTEM_SCORING_score_name
-                                        CHECK (score_name IN('Physical', 'Personnel', 'Policies')),
+                                        CHECK (score_name IN(
+                                            'Physical', 'Personnel', 'Policies')),
     CONSTRAINT                      SYSTEM_SCORING_score
                                         CHECK (score >= 0.0 AND score <= 1.00)
     );
 
 CREATE TABLE FUNCTION_DEFINITIONS(
-    function_number                 VARCHAR(4)                         NOT NULL,
-    function_name                   VARCHAR(100)                       NOT NULL,
-    work_area                       CHAR(100)                          NOT NULL,
-    criticality_value               INT                                NOT NULL,
+    function_number                 VARCHAR(4)                     NOT NULL,
+    function_name                   VARCHAR(100)                   NOT NULL,
+    work_area                       CHAR(100)                      NOT NULL,
+    criticality_value               INT                            NOT NULL,
     CONSTRAINT                      FUNCTION_DEFINITIONS_PK
                                         PRIMARY KEY(function_number),
     CONSTRAINT                      FUNCTION_DEFINITIONS_CD_FK
                                         FOREIGN KEY(criticality_value)
-                                            REFERENCES CRITICALITY_DEFINITIONS(criticality_value)
-                                                ON UPDATE CASCADE
-                                                ON DELETE NO ACTION
+                                            REFERENCES
+                                                CRITICALITY_DEFINITIONS(criticality_value)
+                                                    ON UPDATE CASCADE
+                                                    ON DELETE NO ACTION
     );
 
 CREATE TABLE FUNCTION_MAPPING(
-    endpoint_id                     INT                                NOT NULL,
-    function_number                 VARCHAR(4)                         NOT NULL,
+    endpoint_id                     INT                            NOT NULL,
+    function_number                 VARCHAR(4)                     NOT NULL,
     CONSTRAINT                      FUNCTION_MAPPING_PK
                                         PRIMARY KEY(endpoint_id, function_number),
-    CONSTRAINT                      FUNCTION_MAPPING_IN_FK             FOREIGN KEY(endpoint_id)
+    CONSTRAINT                      FUNCTION_MAPPING_IN_FK         FOREIGN KEY(endpoint_id)
                                         REFERENCES ENDPOINT_NODES(endpoint_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
-    CONSTRAINT                      FUNCTION_MAPPING_FD_FK             FOREIGN KEY(function_number)
-                                        REFERENCES FUNCTION_DEFINITIONS(function_number)
-                                            ON UPDATE CASCADE
-                                            ON DELETE NO ACTION
+    CONSTRAINT                      FUNCTION_MAPPING_FD_FK
+                                        FOREIGN KEY(function_number)
+                                            REFERENCES FUNCTION_DEFINITIONS(function_number)
+                                                ON UPDATE CASCADE
+                                                ON DELETE NO ACTION
     );
     
 CREATE TABLE SOFTWARE_FIRMWARE_MAPPING(
-    endpoint_id                     INT                                NOT NULL,
-    software_id                     INT                                NOT NULL,
+    endpoint_id                     INT                            NOT NULL,
+    software_id                     INT                            NOT NULL,
     CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_PK
                                         PRIMARY KEY(endpoint_id, software_id),
-    CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_EN_FK    FOREIGN KEY(endpoint_id)
+    CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_EN_FK FOREIGN KEY(endpoint_id)
                                     REFERENCES ENDPOINT_NODES(endpoint_id)
                                         ON UPDATE CASCADE
                                         ON DELETE NO ACTION,
-    CONSTRAINT                     SOFTWARE_FIRMWARE_MAPPING_SF_FK    FOREIGN KEY(software_id)
+    CONSTRAINT                      SOFTWARE_FIRMWARE_MAPPING_SF_FK FOREIGN KEY(software_id)
                                     REFERENCES SOFTWARE_FIRMWARE(software_id)
                                         ON UPDATE CASCADE
                                         ON DELETE NO ACTION
     );
     
 CREATE TABLE VULNERABILITY_INSTANCES(
-    cve_number                      VARCHAR(14)                       NOT NULL,
-    software_id                     INT                               NOT NULL,
+    cve_number                      VARCHAR(14)                    NOT NULL,
+    software_id                     INT                            NOT NULL,
     CONSTRAINT                      VULNERABILITY_INSTANCES_PK
                                         PRIMARY KEY(cve_number, software_id),
-    CONSTRAINT                      VULNERABILITY_INSTANCES_DV_FK     FOREIGN KEY(cve_number)
+    CONSTRAINT                      VULNERABILITY_INSTANCES_DV_FK  FOREIGN KEY(cve_number)
                                     REFERENCES VULNERABILITIES_DATA(cve_number)
                                         ON UPDATE CASCADE
                                         ON DELETE NO ACTION,
-    CONSTRAINT                      VULNERABILITY_INSTANCES_SF_FK     FOREIGN KEY(software_id)
+    CONSTRAINT                      VULNERABILITY_INSTANCES_SF_FK  FOREIGN KEY(software_id)
                                         REFERENCES SOFTWARE_FIRMWARE(software_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION
     );
 
 CREATE TABLE APT_CVE_SCORING(
-    cve_number                      VARCHAR(14)                       NOT NULL,
-    apt_group                       VARCHAR(25)                       NOT NULL,
-    score                           DECIMAL(3, 2)                     NOT NULL,
-    reasoning                       VARCHAR(5000)                     NULL,
+    cve_number                      VARCHAR(14)                    NOT NULL,
+    apt_group                       VARCHAR(25)                    NOT NULL,
+    score                           DECIMAL(3, 2)                  NOT NULL,
+    reasoning                       VARCHAR(5000)                  NULL,
     CONSTRAINT                      VULNERABILITY_INSTANCES_PK
                                         PRIMARY KEY(cve_number, apt_group),
-    CONSTRAINT                      APT_CVE_SCORING_VD_FK             FOREIGN KEY(cve_number)
+    CONSTRAINT                      APT_CVE_SCORING_VD_FK          FOREIGN KEY(cve_number)
                                         REFERENCES VULNERABILITIES_DATA(cve_number)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
-    CONSTRAINT                      APT_CVE_SCORING_AG_FK             FOREIGN KEY(apt_group)
+    CONSTRAINT                      APT_CVE_SCORING_AG_FK          FOREIGN KEY(apt_group)
                                         REFERENCES APT_GROUPS(apt_group)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
@@ -250,29 +257,72 @@ CREATE TABLE APT_CVE_SCORING(
                                         CHECK (score >= 0.0 AND score <= 1.00)
     );
 
-/*************************************************************************************************/
-/*                                          INSERT DATA                                          */
-/*************************************************************************************************/
+/*****************************************************************************************/
+/*                                      INSERT DATA                                      */
+/*****************************************************************************************/
 # INSERT INTO APT_GROUPS VALUES(apt_group, alias_names, description);
 # more available at: https://attack.mitre.org/groups/
-# more availabe at: https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU/edit?gid=2069598202#gid=2069598202
+# more availabe at:
+# https://docs.google.com/spreadsheets/d/1H9_xaxQHpWaa4O_Son4Gx0YOIzlcBWMsdvePFX68EKU
 INSERT INTO APT_GROUPS VALUES("_None_", null, "No Description");
-INSERT INTO APT_GROUPS VALUES("admin@338", null, "admin@338 is a China-based cyber threat group. It has previously used newsworthy events as lures to deliver malware and has primarily targeted organizations involved in financial, economic, and trade policy, typically using publicly available RATs such as PoisonIvy, as well as some non-public backdoors.");
-INSERT INTO APT_GROUPS VALUES("Ajax Security Team", null, "Ajax Security Team is a group that has been active since at least 2010 and believed to be operating out of Iran. By 2014, the group transitioned from website defacement operations to malware-based cyber espionage campaigns targeting the US defense industrial base and Iranian users of anti-censorship technologies.");
-INSERT INTO APT_GROUPS VALUES("Akira", null, "Akira is a ransomware variant and ransomware deployment entity active since at least March 2023. Akira uses compromised credentials to access single-factor external access mechanisms such as VPNs for initial access, then various publicly available tools and techniques for lateral movement.");
-INSERT INTO APT_GROUPS VALUES("ALLANITE", null, "ALLANITE is a suspected Russian cyber espionage group, that has primarily targeted the electric utility sector within the US and UK. The group’s tactics are similar to Dragonfly, although ALLANITE's capabilities have not exhibited disruptive or destructive actions.");
-INSERT INTO APT_GROUPS VALUES("Andariel", null, "Andariel is a North Korean state-sponsored threat group active since at least 2009, targeting South Korean government agencies, military organizations, and various domestic companies.");
-INSERT INTO APT_GROUPS VALUES("Aoqin Dragon", null, "Aoqin Dragon is a suspected Chinese cyber espionage group that has been active since at least 2013, targeting government, education, and telecommunication organizations in Australia, Cambodia, Hong Kong, Singapore, and Vietnam.");
-INSERT INTO APT_GROUPS VALUES("APT-C-23", null, "APT-C-23 is a threat group active since at least 2014, primarily targeting the Middle East, including Israeli military assets. The group has developed mobile spyware targeting Android and iOS devices since 2017.");
-INSERT INTO APT_GROUPS VALUES("APT-C-36", null, "APT-C-36 is a suspected South America espionage group that has been active since at least 2018, primarily targeting Colombian government institutions and important corporations in the financial and petroleum sectors.");
-INSERT INTO APT_GROUPS VALUES("APT1", null, "APT1 is a Chinese threat group attributed to Unit 61398 of the People’s Liberation Army. The group has engaged in extensive cyber espionage campaigns against a variety of sectors, especially aerospace, telecommunications, and financial sectors.");
-INSERT INTO APT_GROUPS VALUES("APT10", "Stone Panda", "A Chinese-linked group targeting managed service providers and clients with spear-phishing and public-facing application exploits, deploying malware such as ChChes and Quasar RAT for intellectual property theft and long-term persistence.");
-INSERT INTO APT_GROUPS VALUES("APT12", null, "APT12 is a Chinese cyber espionage group active since at least 2014, primarily targeting media outlets, high-tech companies, and various government entities.");
-INSERT INTO APT_GROUPS VALUES("APT16", null, "APT16 is a Chinese threat group known for spearphishing campaigns targeting Japanese and Taiwanese organizations.");
-INSERT INTO APT_GROUPS VALUES("APT17", null, "APT17 is a Chinese threat group known for its targeting of US government entities, defense industries, and legal firms, primarily utilizing network intrusions.");
-INSERT INTO APT_GROUPS VALUES("APT18", null, "APT18 is a Chinese threat group that has operated since 2009 and targets industries such as technology, human rights organizations, and healthcare.");
-INSERT INTO APT_GROUPS VALUES("APT19", "Codoso Team", "APT19 is a Chinese group targeting industries like defense, finance, energy, and legal services. The group is known for its phishing campaigns and potential overlap with the Deep Panda group.");
-INSERT INTO APT_GROUPS VALUES("APT27", "Emissary Panda", "A Chinese state-sponsored group targeting government and critical infrastructure, exploiting networking vulnerabilities with advanced lateral movement, deploying custom malware like HyperBro and PlugX for espionage.");
+INSERT INTO APT_GROUPS VALUES("admin@338", null, "admin@338 is a China-based cyber threat 
+group. It has previously used newsworthy events as lures to deliver malware and has 
+primarily targeted organizations involved in financial, economic, and trade policy, 
+typically using publicly available RATs such as PoisonIvy, as well as some non-public 
+backdoors.");
+INSERT INTO APT_GROUPS VALUES("Ajax Security Team", null, "Ajax Security Team is a group 
+that has been active since at least 2010 and believed to be operating out of Iran. By 2014, 
+the group transitioned from website defacement operations to malware-based cyber espionage 
+campaigns targeting the US defense industrial base and Iranian users of anti-censorship 
+technologies.");
+INSERT INTO APT_GROUPS VALUES("Akira", null, "Akira is a ransomware variant and ransomware 
+deployment entity active since at least March 2023. Akira uses compromised credentials to 
+access single-factor external access mechanisms such as VPNs for initial access, then 
+various publicly available tools and techniques for lateral movement.");
+INSERT INTO APT_GROUPS VALUES("ALLANITE", null, "ALLANITE is a suspected Russian cyber 
+espionage group, that has primarily targeted the electric utility sector within the US and 
+UK. The group’s tactics are similar to Dragonfly, although ALLANITE's capabilities have not 
+exhibited disruptive or destructive actions.");
+INSERT INTO APT_GROUPS VALUES("Andariel", null, "Andariel is a North Korean state-sponsored 
+threat group active since at least 2009, targeting South Korean government agencies, 
+military organizations, and various domestic companies.");
+INSERT INTO APT_GROUPS VALUES("Aoqin Dragon", null, "Aoqin Dragon is a suspected Chinese 
+cyber espionage group that has been active since at least 2013, targeting government, 
+education, and telecommunication organizations in Australia, Cambodia, Hong Kong, 
+Singapore, and Vietnam.");
+INSERT INTO APT_GROUPS VALUES("APT-C-23", null, "APT-C-23 is a threat group active since at 
+least 2014, primarily targeting the Middle East, including Israeli military assets. The 
+group has developed mobile spyware targeting Android and iOS devices since 2017.");
+INSERT INTO APT_GROUPS VALUES("APT-C-36", null, "APT-C-36 is a suspected South America 
+espionage group that has been active since at least 2018, primarily targeting Colombian 
+government institutions and important corporations in the financial and petroleum 
+sectors.");
+INSERT INTO APT_GROUPS VALUES("APT1", null, "APT1 is a Chinese threat group attributed to 
+Unit 61398 of the People’s Liberation Army. The group has engaged in extensive cyber 
+espionage campaigns against a variety of sectors, especially aerospace, telecommunications, 
+and financial sectors.");
+INSERT INTO APT_GROUPS VALUES("APT10", "Stone Panda", "A Chinese-linked group targeting 
+managed service providers and clients with spear-phishing and public-facing application 
+exploits, deploying malware such as ChChes and Quasar RAT for intellectual property theft 
+and long-term persistence.");
+INSERT INTO APT_GROUPS VALUES("APT12", null, "APT12 is a Chinese cyber espionage group 
+active since at least 2014, primarily targeting media outlets, high-tech companies, and 
+various government entities.");
+INSERT INTO APT_GROUPS VALUES("APT16", null, "APT16 is a Chinese threat group known for 
+spearphishing campaigns targeting Japanese and Taiwanese organizations.");
+INSERT INTO APT_GROUPS VALUES("APT17", null, "APT17 is a Chinese threat group known for its 
+targeting of US government entities, defense industries, and legal firms, primarily 
+utilizing network intrusions.");
+INSERT INTO APT_GROUPS VALUES("APT18", null, "APT18 is a Chinese threat group that has 
+operated since 2009 and targets industries such as technology, human rights organizations, 
+and healthcare.");
+INSERT INTO APT_GROUPS VALUES("APT19", "Codoso Team", "APT19 is a Chinese group targeting 
+industries like defense, finance, energy, and legal services. The group is known for its 
+phishing campaigns and potential overlap with the Deep Panda group.");
+INSERT INTO APT_GROUPS VALUES("APT27", "Emissary Panda", "A Chinese state-sponsored group 
+targeting government and critical infrastructure, exploiting networking vulnerabilities 
+with advanced lateral movement, deploying custom malware like HyperBro and PlugX for 
+espionage.");
 INSERT INTO APT_GROUPS VALUES("APT28", "Fancy Bear", "APT28 is a Russian threat group linked to GRU military intelligence, known for spear-phishing campaigns targeting NATO, governments, and political institutions, with custom malware like X-Agent.");
 INSERT INTO APT_GROUPS VALUES("APT29", "Cozy Bear", "APT29 is a Russian group associated with the Foreign Intelligence Service (SVR). Known for targeting government and research organizations, APT29 uses advanced living-off-the-land techniques and custom malware like CloudDuke.");
 INSERT INTO APT_GROUPS VALUES("APT3", "Gothic Panda", "APT3 is a China-based group attributed to China’s Ministry of State Security. It is responsible for campaigns like Operation Clandestine Fox and targets industries like aerospace and defense.");
