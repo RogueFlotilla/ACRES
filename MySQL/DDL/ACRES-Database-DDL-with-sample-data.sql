@@ -143,7 +143,7 @@ CREATE TABLE HARDWARE_MAPPING(
                                         REFERENCES ENDPOINT_NODES(endpoint_id)
                                             ON UPDATE CASCADE
                                             ON DELETE NO ACTION,
-    CONSTRAINT                      CUSTOMER_EMAIL
+    CONSTRAINT                      FILTER_REPEATS_HM
                                         UNIQUE(hardware_id, serial_number)
 );
     
@@ -153,7 +153,7 @@ CREATE TABLE SOFTWARE_FIRMWARE(
     software_name                   VARCHAR(100)                   NOT NULL,
     software_version                VARCHAR(25)                    NOT NULL,
     CONSTRAINT                      SOFTWARE_FIRMWARE_PK           PRIMARY KEY(software_id),
-    CONSTRAINT                      CUSTOMER_EMAIL
+    CONSTRAINT                      FILTER_REPEATS_SF
                                         UNIQUE(
                                             software_make, software_name, software_version)
     );
