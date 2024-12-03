@@ -93,7 +93,7 @@ CREATE TABLE VULNERABILITIES_DATA(
                                         CHECK (exploitability_score >= 0.00
                                         AND exploitability_score <= 10.00),
     CONSTRAINT                      VULNERABILITIES_DATA_impact_score
-                                        CHECK (impact_score >= 0.00 AND impact_score <= 10.00)
+                                        CHECK (impact_score >= 0.00 AND impact_score <= 10)
     );
 
 CREATE TABLE INFRASTRUCTURE_CATEGORIES(
