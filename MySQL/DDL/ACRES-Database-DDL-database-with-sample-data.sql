@@ -270,22 +270,25 @@ group. It has previously used newsworthy events as lures to deliver malware and 
 primarily targeted organizations involved in financial, economic, and trade policy, 
 typically using publicly available RATs such as PoisonIvy, as well as some non-public 
 backdoors.");
-INSERT INTO APT_GROUPS VALUES("Ajax Security Team", null, "Ajax Security Team is a group 
+INSERT INTO APT_GROUPS VALUES("Agrius", JSON_ARRAY("Pink Sandstorm", "AMERICIUM", "Agonizing Serpens", "BlackShadow"), "Agrius is an Iranian threat actor active since 2020 notable for a series of ransomware and wiper operations in the Middle East, with an emphasis on Israeli targets. Public reporting has linked Agrius to Iran's Ministry of Intelligence and Security (MOIS)."
+INSERT INTO APT_GROUPS VALUES("Ajax Security Team", JSON_ARRAY("Operation Woolen-Goldfish", "AjaxTM", "Rocket Kitten", "Flying Kitten", "Operation Saffron Rose"), "Ajax Security Team is a group 
 that has been active since at least 2010 and believed to be operating out of Iran. By 2014, 
 the group transitioned from website defacement operations to malware-based cyber espionage 
 campaigns targeting the US defense industrial base and Iranian users of anti-censorship 
 technologies.");
-INSERT INTO APT_GROUPS VALUES("Akira", null, "Akira is a ransomware variant and ransomware 
+INSERT INTO APT_GROUPS VALUES("Akira", JSON_ARRAY("GOLD SAHARA", "PUNK SPIDER"), "Akira is a ransomware variant and ransomware 
 deployment entity active since at least March 2023. Akira uses compromised credentials to 
 access single-factor external access mechanisms such as VPNs for initial access, then 
 various publicly available tools and techniques for lateral movement.");
-INSERT INTO APT_GROUPS VALUES("ALLANITE", null, "ALLANITE is a suspected Russian cyber 
+INSERT INTO APT_GROUPS VALUES("ALLANITE", "Palmetto Fusion", "ALLANITE is a suspected Russian cyber 
 espionage group, that has primarily targeted the electric utility sector within the US and 
 UK. The group’s tactics are similar to Dragonfly, although ALLANITE's capabilities have not 
 exhibited disruptive or destructive actions.");
-INSERT INTO APT_GROUPS VALUES("Andariel", null, "Andariel is a North Korean state-sponsored 
-threat group active since at least 2009, targeting South Korean government agencies, 
-military organizations, and various domestic companies.");
+INSERT INTO APT_GROUPS VALUES("Andariel", JSON_ARRAY("Silent Chollima", "PLUTONIUM", "Onyx Sleet"), "Andariel is a North Korean state-sponsored threat group that has been active since at least 2009. Andariel has primarily focused its operations--which have included destructive attacks--against South Korean government agencies, military organizations, and a variety of domestic companies; they have also conducted cyber financial operations against ATMs, banks, and cryptocurrency exchanges. Andariel's notable activity includes Operation Black Mine, Operation GoldenAxe, and Campaign Rifle.
+
+Andariel is considered a sub-set of Lazarus Group, and has been attributed to North Korea's Reconnaissance General Bureau.
+
+North Korean group definitions are known to have significant overlap, and some security researchers report all North Korean state-sponsored cyber activity under the name Lazarus Group instead of tracking clusters or subgroups.");
 INSERT INTO APT_GROUPS VALUES("Aoqin Dragon", null, "Aoqin Dragon is a suspected Chinese 
 cyber espionage group that has been active since at least 2013, targeting government, 
 education, and telecommunication organizations in Australia, Cambodia, Hong Kong, 
